@@ -1,25 +1,27 @@
 from django.http import JsonResponse
-from .models import Device
+from .models import ESPDevice
 
 def get_device_config(request, mac_address):
     try:
-        device = Device.objects.get(mac_address=mac_address)
-    except Device.DoesNotExist:
+        device = ESPDevice.objects.get(mac_address=mac_address)
+    except ESPDevice.DoesNotExist:
         return JsonResponse({"error": "Device not found"}, status=404)
 
     relays_data = []
     for relay in device.relays.all():
         relays_data.append({
-            "name": relay.name,
+            "alias": relay.alias,
             "pin_number": relay.pin_number,
-            "is_on": relay.is_on,
-            "power_rating": relay.power_rating_watts,
+            "mode": relay.mode,
+            "state": relay.state,
         })
 
     data = {
         "mac_address": device.mac_address,
-        "name": device.name,
+        "alias": device.alias,
+        "device_type": device.device_type,
         "floor": device.floor,
+        "location": device.location,
         "is_online": device.is_online,
         "relays": relays_data,
     }
