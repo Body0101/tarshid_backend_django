@@ -7,6 +7,9 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import ESPDevice, Relay, PIRSensor
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
 
 def get_device_config(request, mac_address):
     try:
@@ -81,3 +84,19 @@ def register_device(request):
             return JsonResponse({"error": str(e)}, status=500)
     
     return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsAdminUser])
+def list_all_devices(request):
+    """ Return all ESP devices grouped by floor for the admin map """
+    devices = ESPDevice.objects.all().order_by('floor', 'alias')
+    data = []
+    for d in devices:
+        data.append({
+            'mac_address': d.mac_address,
+            'alias': d.alias,
+            'floor': d.floor,
+            'location': d.location,
+            'is_online': d.is_online
+        })
+    return Response(data)

@@ -78,6 +78,20 @@ const API = {
         }
 
         return await response.json();
+    },
+
+    /**
+     * Admin-only endpoint to fetch all ESP devices for the interactive device map.
+     * @param {string} token Admin authentication token
+     * @returns {Promise<Array>} List of ESP device objects with mac_address, alias, floor, location, is_online
+     */
+    async getDevices(token) {
+        const response = await fetch(`${API_BASE_URL}/api/device/all/`, {
+            method: 'GET',
+            headers: { 'Authorization': `Token ${token}` }
+        });
+        if (!response.ok) throw new Error('Failed to fetch devices map');
+        return await response.json();
     }
 };
 

@@ -27,6 +27,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom scrollbar for the device map container */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(99, 102, 241, 0.3);
+            border-radius: 20px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(99, 102, 241, 0.5);
+        }
+    </style>
 </head>
 <body class="h-full flex overflow-hidden font-sans">
 
@@ -145,15 +161,16 @@
                         </label>
                     </div>
 
-                    <!-- ESP Assignments Container -->
-                    <div id="esp-assignment-container">
-                        <label for="assigned_esps" class="block text-sm font-medium text-slate-300 mb-2">
-                            Assigned ESP32 MAC Addresses
+                    <!-- ESP Assignments Container - Interactive Device Map -->
+                    <div id="esp-assignment-container" class="transition-opacity duration-300">
+                        <label class="block text-sm font-bold text-indigo-400 mb-2">
+                            Interactive Device Map
                         </label>
-                        <p class="text-xs text-slate-400 mb-3">Provide a comma-separated list of ESP MAC addresses that this user is allowed to control.</p>
-                        <input type="text" id="assigned_esps"
-                            class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-200"
-                            placeholder="e.g. AA:BB:CC:DD:EE:FF, 11:22:33:44:55:66">
+                        <p class="text-xs text-slate-400 mb-4">Click on the rooms/devices to grant this user control over them. Selecting all devices does NOT grant Admin Dashboard access.</p>
+                        
+                        <div id="esp-map-loading" class="text-indigo-400 text-sm animate-pulse">Loading building map...</div>
+                        <div id="esp-map" class="space-y-6 hidden max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+                        </div>
                     </div>
 
                     <!-- Action Button -->
