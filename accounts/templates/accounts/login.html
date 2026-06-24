@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950">
+<!--
+  Tarshid IoT Building Management System
+  Authentication - Login Page
+  Author: kenana mohamed
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarshid IoT - Login</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="h-full flex items-center justify-center p-4 selection:bg-indigo-500 selection:text-white relative overflow-hidden">
+    
+    <!-- Decorative background elements -->
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl opacity-20 animate-pulse delay-700"></div>
+
+    <div class="w-full max-w-md z-10">
+        <!-- Logo & Branding -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30 mb-4">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">Tarshid IoT</h1>
+            <p class="text-sm text-slate-400 mt-2">Building Management System Auth Panel</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl shadow-2xl p-8">
+            <h2 class="text-xl font-bold text-white mb-6">Sign In</h2>
+
+            <!-- Error Banner -->
+            <div id="error-banner" class="hidden mb-6 p-4 rounded-xl bg-red-950/50 border border-red-500/50 text-red-200 text-sm flex items-start space-x-3">
+                <svg class="w-5 h-5 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <span id="error-message">Invalid Credentials</span>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="space-y-5">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-slate-300 mb-2">Username</label>
+                    <input type="text" id="username" required
+                        class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-200"
+                        placeholder="Enter username">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-slate-300 mb-2">Password</label>
+                    <input type="password" id="password" required
+                        class="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition duration-200"
+                        placeholder="••••••••">
+                </div>
+
+                <button type="submit" id="submit-btn"
+                    class="w-full py-3 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-950 transition duration-200 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
+                    <span id="btn-text">Sign In</span>
+                    <!-- Spinner (hidden by default) -->
+                    <svg id="btn-spinner" class="hidden animate-spin ml-2 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+        
+        <!-- Footer -->
+        <p class="text-center text-xs text-slate-600 mt-8">
+            &copy; 2026 Tarshid IoT. Enforced by kenana mohamed. All rights reserved.
+        </p>
+    </div>
+
+    <!-- Page Scripts -->
+    <script src="{% static 'accounts/js/api.js' %}"></script>
+    <script src="{% static 'accounts/js/login.js' %}"></script>
+</body>
+</html>
