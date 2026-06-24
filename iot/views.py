@@ -8,8 +8,16 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import ESPDevice, Relay, PIRSensor
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import BasePermission, IsAuthenticated
 from rest_framework.response import Response
+
+class IsSuperUserOrStaff(BasePermission):
+    """
+    Custom permission to allow access only to superusers or staff members.
+    This resolves the authorization mismatch for admin endpoints.
+    """
+    def has_permission(self, request, view):
+        return bool(request.user and (request.user.is_superuser or request.user.is_staff))
 
 def get_device_config(request, mac_address):
     try:
@@ -86,7 +94,7 @@ def register_device(request):
     return JsonResponse({"error": "Only POST allowed"}, status=405)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated, IsAdminUser])
+@permission_classes([IsAuthenticated, IsSuperUserOrStaff])
 def list_all_devices(request):
     """ Return all ESP devices grouped by floor for the admin map """
     devices = ESPDevice.objects.all().order_by('floor', 'alias')
