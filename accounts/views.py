@@ -1,3 +1,8 @@
+"""
+Tarshid IoT Building Management System
+Accounts App Views
+Author: kenana mohamed
+"""
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -101,3 +106,6 @@ def dashboard_page(request):
 
 def register_page(request):
     return render(request, 'accounts/register.html')
+
+def devices_page(request):
+    return render(request, 'accounts/devices.html')

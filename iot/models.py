@@ -21,6 +21,7 @@ class ESPDevice(models.Model):
     is_online = models.BooleanField(default=False)
     connected_at = models.DateTimeField(blank=True, null=True, help_text="Timestamp of last connection")
     disconnected_at = models.DateTimeField(blank=True, null=True, help_text="Timestamp of disconnection")
+    temperature = models.FloatField(null=True, blank=True, help_text="Current temperature")
 
     class Meta:
         verbose_name = "ESP Device"

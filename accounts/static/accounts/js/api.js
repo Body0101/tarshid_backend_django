@@ -1,7 +1,7 @@
 /**
  * Tarshid IoT Building Management System
  * API Communication & Client Handler
- * Author: Abdulrahman Saber
+ * Author: kenana mohamed
  */
 
 // Central backend base URL config
@@ -100,6 +100,31 @@ const API = {
             headers: { 'Authorization': `Token ${token}` }
         });
         if (!response.ok) throw new Error('Failed to fetch devices');
+        return await response.json();
+    },
+
+    async getDetailedDevices(token) {
+        const response = await fetch(`${API_BASE_URL}/api/device/manage/`, {
+            method: 'GET',
+            headers: { 'Authorization': `Token ${token}` }
+        });
+        if (!response.ok) throw new Error('Failed to fetch detailed devices');
+        return await response.json();
+    },
+
+    async updateDeviceConfig(mac, payload, token) {
+        const response = await fetch(`${API_BASE_URL}/api/device/manage/${mac}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`
+            },
+            body: JSON.stringify(payload)
+        });
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.error || 'Failed to update device config');
+        }
         return await response.json();
     }
 };

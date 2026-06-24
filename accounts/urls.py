@@ -1,3 +1,8 @@
+"""
+Tarshid IoT Building Management System
+Accounts App URL Configuration
+Author: kenana mohamed
+"""
 from django.urls import path
 from . import views
 
@@ -10,6 +15,7 @@ urlpatterns = [
     # HTML Pages
     path('', views.login_page, name='login_page'),
     path('admin-panel/', views.admin_page, name='admin_page'),
+    path('devices/', views.devices_page, name='devices_page'),
     path('dashboard/', views.dashboard_page, name='dashboard_page'),
     path('register/', views.register_page, name='register_page'),
 ]

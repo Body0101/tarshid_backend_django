@@ -1,7 +1,7 @@
 /**
  * Tarshid IoT Building Management System
  * User Dashboard Operations Handler
- * Author: Abdulrahman Saber
+ * Author: kenana mohamed
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -106,12 +106,23 @@ async function fetchAndRenderDevices(token) {
             subtitle.textContent = `${floorText} • ${device.location || 'Unknown Location'}`;
             headerDetails.appendChild(subtitle);
 
-            // Device MAC Address
+            // Device MAC Address & Temperature Container
+            const metaContainer = document.createElement('div');
+            metaContainer.className = "flex items-center gap-3 mb-6";
+            
             const macInfo = document.createElement('div');
-            macInfo.className = "flex items-center text-[10px] text-slate-500 font-mono mb-6 bg-slate-950/40 px-2 py-1 rounded w-fit border border-slate-900";
+            macInfo.className = "flex items-center text-[10px] text-slate-500 font-mono bg-slate-950/40 px-2 py-1 rounded w-fit border border-slate-900";
             macInfo.textContent = device.mac_address;
-            headerDetails.appendChild(macInfo);
+            metaContainer.appendChild(macInfo);
 
+            if (device.temperature !== null && device.temperature !== undefined) {
+                const tempBadge = document.createElement('span');
+                tempBadge.className = "inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20";
+                tempBadge.innerHTML = `🌡️ ${parseFloat(device.temperature).toFixed(1)}°C`;
+                metaContainer.appendChild(tempBadge);
+            }
+            
+            headerDetails.appendChild(metaContainer);
             content.appendChild(headerDetails);
 
             // Active Relays section
