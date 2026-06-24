@@ -54,6 +54,30 @@ const API = {
         }
 
         return await response.json();
+    },
+
+    /**
+     * Public endpoint to register a new standard user using a shared secret code.
+     * @param {string} username 
+     * @param {string} password 
+     * @param {string} secret_code 
+     * @returns {Promise<object>} Status and success message
+     */
+    async register(username, password, secret_code) {
+        const response = await fetch(`${API_BASE_URL}/api/auth/register_api/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password, secret_code })
+        });
+
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            throw new Error(errData.error || 'Registration failed');
+        }
+
+        return await response.json();
     }
 };
 
