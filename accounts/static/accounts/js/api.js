@@ -1,7 +1,7 @@
 /**
  * Tarshid IoT Building Management System
  * API Communication & Client Handler
- * Author: kenana mohamed
+ * Author: Abdulrahman Saber
  */
 
 // Central backend base URL config
@@ -91,6 +91,15 @@ const API = {
             headers: { 'Authorization': `Token ${token}` }
         });
         if (!response.ok) throw new Error('Failed to fetch devices map');
+        return await response.json();
+    },
+
+    async getMyDevices(token) {
+        const response = await fetch(`${API_BASE_URL}/api/device/my-devices/`, {
+            method: 'GET',
+            headers: { 'Authorization': `Token ${token}` }
+        });
+        if (!response.ok) throw new Error('Failed to fetch devices');
         return await response.json();
     }
 };

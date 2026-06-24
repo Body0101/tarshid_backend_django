@@ -1,7 +1,7 @@
 """
 Tarshid IoT Building Management System
 Auto-Discovery API Views
-Author: kenana mohamed
+Author: Abdulrahman Saber
 """
 import json
 from django.http import JsonResponse
@@ -106,5 +106,29 @@ def list_all_devices(request):
             'floor': d.floor,
             'location': d.location,
             'is_online': d.is_online
+        })
+    return Response(data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_dashboard_devices(request):
+    """ Return devices assigned to the user, and only relays that are ON """
+    if request.user.is_superuser:
+        devices = ESPDevice.objects.all().order_by('floor', 'alias')
+    else:
+        devices = request.user.profile.assigned_esps.all().order_by('floor', 'alias')
+        
+    data = []
+    for d in devices:
+        active_relays = d.relays.filter(state='ON')
+        relays_data = [{'alias': r.alias, 'mode': r.mode} for r in active_relays]
+        
+        data.append({
+            'mac_address': d.mac_address,
+            'alias': d.alias,
+            'is_online': d.is_online,
+            'floor': d.floor,
+            'location': d.location,
+            'active_relays': relays_data
         })
     return Response(data)
